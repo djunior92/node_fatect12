@@ -15,12 +15,12 @@ module.exports = (app) => {
             let usuario = new usuariosModel(req.body)
 
             if (await usuario.save()) {
-                res.send(`Usuário adicionado com sucesso - Id: ${usuario.id}`);
+                res.status(200).send(`${usuario.id}`);
             } else {
                 res.status(500).send("Erro ao adicionar usuário")
             }
         } catch (error) {
-            res.send("Erro ao adicionar usuario: " + error);
+            res.status(500).send("Erro ao adicionar usuario: " + error);
         }
     }
 
