@@ -67,6 +67,7 @@ module.exports = (app) => {
             let lembrete = await lembretesModel.findById(id)
 
             lembrete.concluido = true
+            lembrete.observacao_conclusao = req.body.observacao_conclusao
 
             if (await lembrete.save())
                 res.send("Lembrete concluído com sucesso")
@@ -87,7 +88,7 @@ module.exports = (app) => {
         } catch (error) {
             res.status(500).send(`Não foi possível excluir o lembrete: ${error}`)
         }
-    }   
+    }
 
     return lembretesController;
 }
