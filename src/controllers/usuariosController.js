@@ -13,6 +13,7 @@ module.exports = (app) => {
     usuariosController.adicionar = async (req, res) => {
         try {
             let usuario = new usuariosModel(req.body)
+            usuario.senha = await app.utils.encryption.criptografar(usuario.senha)
 
             if (await usuario.save()) {
                 res.status(200).send(`${usuario.id}`);
@@ -20,7 +21,7 @@ module.exports = (app) => {
                 res.status(500).send("Erro ao adicionar usuário")
             }
         } catch (error) {
-            res.status(500).send("Erro ao adicionar usuario: " + error);
+            res.status(500).send("Erro ao adicionar usuario - " + error);
         }
     }
 
@@ -28,8 +29,10 @@ module.exports = (app) => {
         try {
             let _id = req.params.id
             let usuario = await usuariosModel.findOne({ _id })
-            if (usuario)
+            if (usuario) {
+                usuario.senha = ""
                 res.json(usuario);
+            }
             else
                 res.status(404).end()
         } catch (error) {
@@ -44,13 +47,15 @@ module.exports = (app) => {
             let usuario = await usuariosModel.findById(id)
             usuario.nome = req.body.nome
             usuario.email = req.body.email
+            if (req.body.senha)
+                usuario.senha = await app.utils.encryption.criptografar(req.body.senha)
 
             if (await usuario.save())
-                res.send("Usuário atualizado com sucesso")
+                res.send("Usuário atualizado com sucesso!")
             else
-                res.status(500).send("Erro ao atualizar o usuário")
+                res.status(500).send("Erro ao atualizar usuário")
         } catch (error) {
-            res.status(500).send(`Erro ao atualizar o usuário: ${error}`)
+            res.status(500).send(`Erro ao atualizar o usuário - ${error}`)
         }
     }
 
@@ -62,7 +67,7 @@ module.exports = (app) => {
             else
                 res.status(500).send("Não foi possível excluir o usuário")
         } catch (error) {
-            res.status(500).send(`Não foi possível excluir o usuário: ${error}`)
+            res.status(500).send(`Não foi possível excluir o usuário - ${error}`)
         }
     }
 
@@ -74,14 +79,15 @@ module.exports = (app) => {
             let usuario = await usuariosModel.findOne({ email })
             if (!usuario)
                 res.status(404).send("Usuário não encontrado")
-            else if (usuario.senha != senha)
+            else if (! await app.utils.encryption.validar(senha, usuario.senha))
                 res.status(404).send("Senha inválida")
             else {
                 let payload = {
                     id: usuario._id,
                     email
                 }
-                let token = app.get("jwt").sign(payload, "chavesecreta", { expiresIn: 60 * 60 * 24 })
+                //let token = app.get("jwt").sign(payload, "chavesecreta", { expiresIn: 60 * 60 * 24 })
+                let token = app.get("jwt").sign(payload, process.env.JWT_CHAVE_PRIVADA, { expiresIn: 60 * 60 * 24 })
 
                 res.json({
                     token,
@@ -89,7 +95,7 @@ module.exports = (app) => {
                 })
             }
         } catch (error) {
-            res.status(500).send(`Erro ao realizar login: ${error}`)
+            res.status(500).send(`Erro ao realizar login - ${error}`)
 
         }
     }

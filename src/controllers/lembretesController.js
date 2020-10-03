@@ -25,7 +25,7 @@ module.exports = (app) => {
                 res.status(500).send("Erro ao adicionar lembrete")
             }
         } catch (error) {
-            res.status(500).send("Erro ao adicionar lembrete: " + error);
+            res.status(500).send("Erro ao adicionar lembrete - " + error);
         }
     }
 
@@ -57,7 +57,7 @@ module.exports = (app) => {
             else
                 res.status(500).send("Erro ao atualizar o lembrete")
         } catch (error) {
-            res.status(500).send(`Erro ao atualizar o lembrete: ${error}`)
+            res.status(500).send(`Erro ao atualizar o lembrete - ${error}`)
         }
     }
 
@@ -74,7 +74,7 @@ module.exports = (app) => {
             else
                 res.status(500).send("Erro ao concluir o lembrete")
         } catch (error) {
-            res.status(500).send(`Erro ao concluir o lembrete: ${error}`)
+            res.status(500).send(`Erro ao concluir o lembrete - ${error}`)
         }
     }
 
@@ -86,7 +86,7 @@ module.exports = (app) => {
             else
                 res.status(500).send("Não foi possível excluir o lembrete")
         } catch (error) {
-            res.status(500).send(`Não foi possível excluir o lembrete: ${error}`)
+            res.status(500).send(`Não foi possível excluir o lembrete - ${error}`)
         }
     }
 

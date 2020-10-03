@@ -26,7 +26,7 @@ module.exports = (app) => {
                 res.status(500).send("Erro ao adicionar a conta")
             }
         } catch (error) {
-            res.status(500).send("Erro ao adicionar a conta: " + error);
+            res.status(500).send("Erro ao adicionar a conta - " + error);
         }
     }
 
@@ -46,7 +46,7 @@ module.exports = (app) => {
                 res.status(500).send("Erro ao adicionar a conta")
             }
         } catch (error) {
-            res.status(500).send("Erro ao adicionar a conta: " + error);
+            res.status(500).send("Erro ao adicionar a conta - " + error);
         }
     }
 
@@ -79,7 +79,7 @@ module.exports = (app) => {
             else
                 res.status(500).send("Erro ao atualizar a conta")
         } catch (error) {
-            res.status(500).send(`Erro ao atualizar a conta: ${error}`)
+            res.status(500).send(`Erro ao atualizar a conta - ${error}`)
         }
     }
 
@@ -95,7 +95,7 @@ module.exports = (app) => {
             else
                 res.status(500).send("Erro ao concluir a conta")
         } catch (error) {
-            res.status(500).send(`Erro ao concluir a conta: ${error}`)
+            res.status(500).send(`Erro ao concluir a conta - ${error}`)
         }
     }
 
@@ -107,9 +107,9 @@ module.exports = (app) => {
             else
                 res.status(500).send("Não foi possível excluir a conta")
         } catch (error) {
-            res.status(500).send(`Não foi possível excluir a conta: ${error}`)
+            res.status(500).send(`Não foi possível excluir a conta - ${error}`)
         }
-    }   
+    }
 
     return contasController;
 }

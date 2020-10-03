@@ -1,16 +1,24 @@
 const express = require('express')
-const consign = require('consign')
-const jwt = require('jsonwebtoken')
+const consign = require("consign")
+const jwt = require("jsonwebtoken");
+const cors = require('cors')
+
+require('dotenv').config();
 
 const app = express();
+
+app.use(cors({ origin: 'http://localhost:8080', credentials: true }))
 
 app.set('jwt', jwt)
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }))
+app.use("/uploads", express.static("uploads"))
+
 
 consign({ cwd: 'src' })
     .include("db")
+    .then("utils")
     .then("middlewares")
     .then("models")
     .then("controllers")

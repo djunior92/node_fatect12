@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 
-module.exports = (app) => {
-    mongoose.connect("mongodb://localhost:27017/lancamentost12", {
+module.exports = app => {
+    mongoose.connect(`mongodb://${process.env.MONGODB_URL}/${process.env.MONBODB_DATABASE}`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false
     })
         .then(() => console.log("Conexão foi realizada com o MongoDB"))
-        .catch((error) => console.log(`Erro ao conectar ao MongoDB: ${error}`))
+        .catch((err) => console.log(`Erro ao conectar ao no MongoDB: ${err}`))
 
     return mongoose;
-} 
+}
