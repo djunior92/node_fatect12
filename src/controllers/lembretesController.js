@@ -67,7 +67,6 @@ module.exports = (app) => {
             let lembrete = await lembretesModel.findById(id)
 
             lembrete.concluido = true
-            lembrete.observacao_conclusao = req.body.observacao_conclusao
 
             if (await lembrete.save())
                 res.send("Lembrete concluído com sucesso")

@@ -12,9 +12,6 @@ module.exports = app => {
             type: Date,
             required: [true, 'é obrigatório']
         },
-        observacao_conclusao: {
-            type: String
-        },
         concluido: {
             type: Boolean,
             required: [true, 'é obrigatório']
